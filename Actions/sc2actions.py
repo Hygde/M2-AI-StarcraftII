@@ -23,10 +23,11 @@ class SC2Action:
     _NOT_QUEUED = [0]
     _QUEUED = [1]
 
-    def __init__(self):
-        self.logger = logging.getLogger()
+    def __init__(self, base_top_left):
+        self.logger = logging.getLogger("SC2Action")
+        self.base_top_left = base_top_left
 
-    def action(self):
+    def action(self, obs):
         self.logger.debug("Performing action")
         return actions.FunctionCall(self._NOOP, [])
     
