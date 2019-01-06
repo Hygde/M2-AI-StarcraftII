@@ -7,6 +7,8 @@ import logging
 from Actions.sc2actions import SC2Action
 from Actions.builder import Builder
 
+#python -m pysc2.bin.agent --agent agent.Agent --map Simple64 --agent_race terran
+
 class Agent(base_agent.BaseAgent):
     def __init__(self):
         super(Agent, self).__init__()
