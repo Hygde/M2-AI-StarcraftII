@@ -21,14 +21,14 @@ class Builder(SC2Action):
         self.logger.debug("Selecting a SCV")
         yx = (obs.observation["feature_screen"][self._UNIT_TYPE] == self._TERRAN_SCV).nonzero()
         target = [yx[1][0], yx[0][0]]
-        return actions.FunctionCall(self._SELECT_POINT, [self._NOT_QUEUED, target])
+        return actions.FunctionCall(self._SELECT_POINT, [self._QUEUED, target])
 
     def _buildSupplyDepot(self, obs):#todo generalize this function
         self.logger.debug("")
         unit_type = obs.observation["feature_screen"][self._UNIT_TYPE]
         yx = (unit_type == self._TERRAN_COMMANDCENTER).nonzero()
         target = self._transformLocation(int(yx[1].mean()), 0, int(yx[0].mean()), 20)
-        return actions.FunctionCall(self._BUILD_SUPPLYDEPOT, [self._NOT_QUEUED, target])
+        return actions.FunctionCall(self._BUILD_SUPPLYDEPOT, [self._QUEUED, target])
 
     def _freeSCV(self, obs):
         self.logger.debug("Freeing the SCV")
