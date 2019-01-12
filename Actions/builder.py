@@ -7,7 +7,6 @@ class Builder(SC2Action):
     _PLAYER_NEUTRAL = features.PlayerRelative.NEUTRAL
 
     #terrans unit id
-    _TERRAN_COMMANDCENTER = 18
     _TERRAN_SCV = 45
 
     _BUILD_SUPPLYDEPOT = actions.FUNCTIONS.Build_SupplyDepot_screen.id
