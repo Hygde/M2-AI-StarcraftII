@@ -7,6 +7,9 @@ class SC2Action:
 
     NEUTRAL_MINERALFIELD = 341
 
+    #terran main units
+    _TERRAN_COMMANDCENTER = 18
+
     #functions
     _NOOP = actions.FUNCTIONS.no_op.id
     _SELECT_POINT = actions.FUNCTIONS.select_point.id
