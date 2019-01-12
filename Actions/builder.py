@@ -12,10 +12,13 @@ class Builder(SC2Action):
 
     _BUILD_SUPPLYDEPOT = actions.FUNCTIONS.Build_SupplyDepot_screen.id
     _BUILD_BARRAQUEMENT = actions.FUNCTIONS.Build_Barracks_screen.id
+    _BUILD_AUTOTURRET = actions.FUNCTIONS.Build_MissileTurret_screen.id
+    _BUILD_BUNKER = actions.FUNCTIONS.Build_Bunker_screen.id
 
-    def __init__(self, base_top_left):
+    def __init__(self, base_top_left, building=_BUILD_SUPPLYDEPOT):
         super(Builder,self).__init__(base_top_left)
         self.duration = 3
+        self.to_build = building
 
     def _selectSCV(self, obs):
         self.logger.debug("Selecting a SCV")
@@ -28,12 +31,11 @@ class Builder(SC2Action):
         unit_type = obs.observation["feature_screen"][self._UNIT_TYPE]
         yx = (unit_type == self._TERRAN_COMMANDCENTER).nonzero()
         target = self._transformLocation(int(yx[1].mean()), 0, int(yx[0].mean()), 20)
-        return actions.FunctionCall(self._BUILD_SUPPLYDEPOT, [self._QUEUED, target])
+        return actions.FunctionCall(self.to_build, [self._QUEUED, target])
 
     def _freeSCV(self, obs):
         self.logger.debug("Freeing the SCV")
         yx_min = (obs.observation["feature_screen"][self._UNIT_TYPE] == self.NEUTRAL_MINERALFIELD).nonzero()
-        self.logger.debug(yx_min);input()
         target = self._transformLocation(int(yx_min[1].mean()), 0, int(yx_min[0].mean()), 0)
         return actions.FunctionCall(self._MOVE_TO, [self._QUEUED, target])
 
