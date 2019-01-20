@@ -27,9 +27,9 @@ class Builder(SC2Action):
         return actions.FunctionCall(self._SELECT_POINT, [self._QUEUED, target])
 
     def _offsetByBuildingType(self, btype):
-        if   btype == self.BUILD_SUPPLYDEPOT:      x, y = 0 * self._buildings[btype]    , 5 * self._buildings[btype] + 15
-        elif btype == self.BUILD_BARRACKS:         x, y = 5 * self._buildings[btype] + 15, 5 * self._buildings[btype] + 15
-        elif btype == self.BUILD_ENGINEERINGBAY:   x, y = 5 * self._buildings[btype] + 15, 0 * self._buildings[btype]
+        if   btype == self.BUILD_SUPPLYDEPOT:      x, y = 0 * self._buildings[btype]    , 10 * self._buildings[btype] + 15
+        elif btype == self.BUILD_BARRACKS:         x, y = 10 * self._buildings[btype] + 15, 10 * self._buildings[btype] + 15
+        elif btype == self.BUILD_ENGINEERINGBAY:   x, y = 10 * self._buildings[btype] + 15, 0 * self._buildings[btype]
         return (x, y)
 
     def _build(self, obs):#todo generalize this function
@@ -37,7 +37,6 @@ class Builder(SC2Action):
         unit_type = obs.observation["feature_screen"][self._UNIT_TYPE]
         yx = (unit_type == self._TERRAN_COMMANDCENTER).nonzero()
         xy_off = self._offsetByBuildingType(self._to_build)
-        self._logger.debug(xy_off); input()
         target = self._transformLocation(int(yx[1].mean()), xy_off[0], int(yx[0].mean()), xy_off[1])
         return actions.FunctionCall(self._to_build, [self._QUEUED, target])
 
