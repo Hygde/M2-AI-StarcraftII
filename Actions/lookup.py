@@ -21,11 +21,12 @@ class LookUp(SC2Action):
 
     def focusAtBase(self, base_top_left):
         x, y = 0, 0
-        if self.base_top_left: x, y = 18, 24
+        if self._base_top_left: x, y = 18, 24
         else: x, y = 40, 46
         return (x, y)
     
     def countUnit(self, obs, unit, isbuilding=True):
+        self._logger.warning("Do not use this function")
         divisor = 100 if isbuilding else 20
         yx = (obs.observation["feature_screen"][self._UNIT_TYPE] == unit).nonzero()
         return round(len(yx[1]) / divisor)
@@ -35,6 +36,6 @@ class LookUp(SC2Action):
             x, y = 20 * int(self._iteration/3) + 12, 20 * (self._iteration % 3) + 12
             self._logger.debug("x = "+str(x)+" y = "+str(y))
         else:
-            x, y = self.focusAtBase(self.base_top_left)
+            x, y = self.focusAtBase(self._base_top_left)
         self._iteration += 1
         return self._moveCamera(x,y)
