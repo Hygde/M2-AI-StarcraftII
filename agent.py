@@ -7,6 +7,7 @@ import logging
 from Actions.sc2actions import SC2Action
 from Actions.builder import Builder
 from Actions.lookup import LookUp
+from Actions.train_units import TrainUnits
 from UnitType.terran_units import Terran
 from Learning.qlearning import QTable
 
@@ -29,6 +30,7 @@ class Agent(base_agent.BaseAgent):
         self._building_reward = 0
         self._logger.addHandler(ch)
         self._act = None
+        self._iteration = 0
 
     def reset(self):
         super(Agent, self).reset()
@@ -78,6 +80,12 @@ class Agent(base_agent.BaseAgent):
                 next_act = [key for key in self.buildings_state][selected_action]
                 self.buildings_state[next_act] += 1
                 self._building_reward = self._qbuildings.update_qtable(bstate, tuple(next_state), selected_action, self._getReward(self.buildings_state[next_act]))#update reward
-                self._act = Builder(self.base_top_left, self.buildings_state, self._countBuildings(next_state), next_act)      
+                self._act = Builder(self.base_top_left, self.buildings_state, self._countBuildings(next_state), next_act)
+            elif self.steps > 300:
+                if self._iteration < 10:
+                    self._act = TrainUnits(self.base_top_left, True, TrainUnits.TRAIN_MARINE)
+                    self._iteration += 1
+                else:
+                    self._iteration = 0
 
         return result
