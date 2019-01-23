@@ -31,11 +31,11 @@ class Builder(SC2Action):
 
     def _offsetByBuildingType(self, btype):
         if self._number_building == 0: x, y = 00 ,12
-        if self._number_building == 1: x, y = 12 ,12
-        if self._number_building == 2: x, y = 22 ,12
+        if self._number_building == 1: x, y = 15 ,12
+        if self._number_building == 2: x, y = 25 ,12
         if self._number_building == 3: x, y = 00 ,22
-        if self._number_building == 4: x, y = 12 ,22
-        if self._number_building == 5: x, y = 22 ,22
+        if self._number_building == 4: x, y = 15 ,22
+        if self._number_building == 5: x, y = 25 ,22
         return (x, y)
 
     def _checkState(self, obs):
