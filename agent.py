@@ -27,6 +27,7 @@ class Agent(base_agent.BaseAgent):
         ch = logging.StreamHandler()
         ch.setLevel(logging.DEBUG)
         ch.setFormatter(formatter)
+        self._qbuildings = QTable([Builder.BUILD_SUPPLYDEPOT, Builder.BUILD_BARRACKS, Builder.BUILD_ENGINEERINGBAY])
         self._building_reward = 0
         self._logger.addHandler(ch)
         self._act = None
@@ -34,6 +35,7 @@ class Agent(base_agent.BaseAgent):
 
     def reset(self):
         super(Agent, self).reset()
+        self._qbuildings.save()
         self.steps = 0
         self._reward = 0
 
@@ -50,7 +52,6 @@ class Agent(base_agent.BaseAgent):
         self.buildings_state = {Builder.BUILD_SUPPLYDEPOT:0, Builder.BUILD_BARRACKS:0, Builder.BUILD_ENGINEERINGBAY:0}
         self._act = Builder(self.base_top_left, self.buildings_state, self._countBuildings(self._getBuildingState()))
         #self._qbuildings = QTable({Builder.BUILD_SUPPLYDEPOT:2, Builder.BUILD_BARRACKS:2, Builder.BUILD_ENGINEERINGBAY:1}, [Builder.BUILD_SUPPLYDEPOT, Builder.BUILD_BARRACKS, Builder.BUILD_ENGINEERINGBAY])
-        self._qbuildings = QTable([Builder.BUILD_SUPPLYDEPOT, Builder.BUILD_BARRACKS, Builder.BUILD_ENGINEERINGBAY])
     
     def _getBuildingState(self):
         return (self.buildings_state[Builder.BUILD_SUPPLYDEPOT], self.buildings_state[Builder.BUILD_BARRACKS], self.buildings_state[Builder.BUILD_ENGINEERINGBAY])

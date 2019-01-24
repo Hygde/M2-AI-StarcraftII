@@ -8,13 +8,13 @@ class QTable:
     
     #def __init__(self, objectives, actions, alpha=0.1, reward_decay = 0.9, eps = 0.7):
     #    self._objectives = objectives
-    def __init__(self, actions, alpha=0.1, reward_decay = 0.9, eps = 0.9):
+    def __init__(self, actions, alpha=0.1, reward_decay = 0.9, eps = 0.7):
         self._actions = actions
         self._alpha = alpha
         self._reward_decay = reward_decay
         self._eps = eps
         self._states = set()
-        self._qtable = self._load("qtable.npz") if isfile("qtable.npz") else np.zeros((0, len(self._actions)))
+        self._qtable = self._load("qtable") if isfile("qtable") else np.zeros((0, len(self._actions)))
 
     def _load(self, fname):return np.load(fname)
 
@@ -52,3 +52,6 @@ class QTable:
         loss = q_targets - q_state
         self._qtable[state_idx, action] += self._alpha * loss
         return loss
+
+    def save(self):
+        np.save("qtable", self._qtable)
